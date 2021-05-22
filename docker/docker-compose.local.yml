@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/tabletop-board-backend/local.Dockerfile
+    container_name: tabletop_board_backend_local
+    env_file: ../local.env
+    restart: unless-stopped
+    volumes:
+      - ..:/app/
+    depends_on:
+      - db
+    working_dir: "/app/backend"
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+
+
+  db:
+    image: postgres:11
+    container_name: tabletop_board_db_local
+    restart: unless-stopped
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    env_file:
+      - ../local.env
+
+
+  minio-storage:
+    image: minio/minio:latest
+    container_name: tabletop_board_minio_storage_local
+    entrypoint: sh
+    restart: unless-stopped
+    command: -c 'mkdir -p /data/tabletop_board && /usr/bin/minio server /data'
+    ports:
+      - "9000:9000"
+    expose:
+      - 9000
+    volumes:
+      - s3_storage:/data
+    environment:
+      VIRTUAL_PORT: 9000
+      MINIO_ACCESS_KEY: DEVELOP_ACCESS_KEY
+      MINIO_SECRET_KEY: DEVELOP_SECRET_KEY
+
+  redis:
+    image: redis:alpine
+    container_name: tabletop_board_redis_local
+    restart: unless-stopped
+    expose:
+      - "6379"
+
+volumes:
+  s3_storage:
