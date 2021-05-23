@@ -3,11 +3,12 @@ version: "3.9"
 services:
 
   backend:
+    image: tabletop_board_backend_dev
     build:
       context: ..
-      dockerfile: docker/tabletop-board-backend/local.Dockerfile
+      dockerfile: docker/backend/dev.Dockerfile
     container_name: tabletop_board_backend_local
-    env_file: ../local.env
+    env_file: ../dev.env
     restart: unless-stopped
     volumes:
       - ..:/app/
@@ -26,9 +27,9 @@ services:
     container_name: tabletop_board_db_local
     restart: unless-stopped
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - ../volumes_data/db:/var/lib/postgresql/data
     env_file:
-      - ../local.env
+      - ../dev.env
 
 
   minio-storage:

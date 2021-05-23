@@ -1,4 +1,4 @@
-FROM python:3.7 AS builder
+FROM python:3.9-slim AS builder
 
 ENV PYTHONUNBUFFERED=1 \
     # prevents python creating .pyc files
