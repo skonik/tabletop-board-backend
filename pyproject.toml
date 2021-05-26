@@ -12,6 +12,7 @@ django-environ = "^0.4.5"
 psycopg2-binary = "^2.8.6"
 isort = "^5.8.0"
 safety = "^1.10.3"
+pytest-django = "^4.3.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
