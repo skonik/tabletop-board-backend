@@ -37,4 +37,4 @@ dev.lint:
 	docker-compose -f $(DEV_COMPOSE_FILE_PATH) exec backend flake8 .
 
 dev.test:
-	docker-compose -f $(DEV_COMPOSE_FILE_PATH) exec backend ./manage.py test
+	docker-compose -f $(DEV_COMPOSE_FILE_PATH) exec backend pytest
