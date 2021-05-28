@@ -52,7 +52,9 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = [
+    'tables',
+]
 THIRD_PARTY_APPS = []
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -165,3 +167,8 @@ DEFAULT_AUTO_FIELD = env.str(
     var='DEFAULT_AUTO_FIELD',
     default='django.db.models.BigAutoField',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+}
