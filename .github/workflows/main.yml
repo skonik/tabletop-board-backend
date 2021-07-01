@@ -52,8 +52,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
-      with:
-        milliseconds: 1000
+        with:
+          milliseconds: 1000
       - name: Lint
         run: |
           make ci.lint
