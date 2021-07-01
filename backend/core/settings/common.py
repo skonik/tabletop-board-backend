@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from typing import List
 
 import environ
 
@@ -43,7 +44,7 @@ ALLOWED_HOSTS = env.list(
 
 # Application definition
 
-DJANGO_APPS = [
+DJANGO_APPS: List[str] = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,12 +53,12 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-LOCAL_APPS = [
+LOCAL_APPS: List[str] = [
     'tables',
 ]
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS: List[str] = []
 
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
+INSTALLED_APPS: List[str] = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
