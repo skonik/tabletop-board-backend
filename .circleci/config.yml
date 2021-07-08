@@ -52,8 +52,21 @@ jobs:
             <<: *ci-environment
           command: poetry run pytest backend
 
+  vulnerabilities-check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - poetry/install
+      - run:
+          name: Run safety
+          environment:
+            <<: *ci-environment
+          command: poetry run safety check
+
 workflows:
   ci:
     jobs:
       - lint
       - test
+      - vulnerabilities-check
