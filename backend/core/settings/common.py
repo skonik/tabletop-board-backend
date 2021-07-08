@@ -51,7 +51,9 @@ DJANGO_APPS: List[str] = [
 LOCAL_APPS: List[str] = [
     'tables',
 ]
-THIRD_PARTY_APPS: List[str] = []
+THIRD_PARTY_APPS: List[str] = [
+    'drf_yasg',  # Swagger generation
+]
 
 INSTALLED_APPS: List[str] = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
@@ -164,3 +166,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
 }
+
+ENABLE_SWAGGER = env.bool('ENABLE_SWAGGER', default=True)
