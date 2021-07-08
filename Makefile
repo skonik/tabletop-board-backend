@@ -35,6 +35,9 @@ dev.sh:
 
 dev.lint:
 	docker-compose -f $(DEV_COMPOSE_FILE_PATH) exec backend flake8 .
+	docker-compose -f $(DEV_COMPOSE_FILE_PATH) exec backend mypy --disallow-untyped-calls --config-file ../mypy.ini .
+	docker-compose -f $(DEV_COMPOSE_FILE_PATH) exec backend isort . --check-only
+
 
 dev.test:
 	docker-compose -f $(DEV_COMPOSE_FILE_PATH) exec backend pytest
