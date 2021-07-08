@@ -1,0 +1,59 @@
+version: 2.1
+
+orbs:
+  docker: circleci/docker@1.5.0
+  poetry: frameio/poetry@0.21.0
+
+executors:
+  default:
+    docker:
+      - image: circleci/python:3.9
+
+
+ci-environment: &ci-environment
+  DJANGO_SETTINGS_MODULE: core.settings.develop
+  POSTGRES_DB: tabletop_board
+  POSTGRES_USER: tabletop_board
+  POSTGRES_PASSWORD: tabletop_board
+  DATABASE_URL: postgres://tabletop_board:tabletop_board@localhost:5432/tabletop_board
+
+jobs:
+  lint:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - poetry/install
+      - run:
+          name: Run linter
+          environment:
+            <<: *ci-environment
+          working_directory: backend
+          command: |
+            poetry run flake8 .
+            poetry run mypy --disallow-untyped-calls --config-file ../mypy.ini .
+            poetry run isort . --check-only
+  test:
+    docker:
+      - image: circleci/python:3.9
+      - image: postgres:11
+        environment:
+          - POSTGRES_USER=tabletop_board
+          - POSTGRES_PASSWORD=tabletop_board
+          - POSTGRES_DB=tabletop_board
+    executor:
+      name: default
+    steps:
+      - checkout
+      - poetry/install
+      - run:
+          name: Run tests
+          environment:
+            <<: *ci-environment
+          command: poetry run pytest backend
+
+workflows:
+  ci:
+    jobs:
+      - lint
+      - test
