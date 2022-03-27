@@ -14,12 +14,16 @@ services:
       - ..:/app/
     depends_on:
       - db
+      - redis
+      - minio-storage
     working_dir: "/app/backend"
     expose:
       - 8000
     ports:
       - "8000:8000"
     command: bash -c "python manage.py runserver 0.0.0.0:8000"
+    labels:
+      "docker_compose_diagram.icon": "django"
 
 
   db:
@@ -48,6 +52,8 @@ services:
       VIRTUAL_PORT: 9000
       MINIO_ACCESS_KEY: DEVELOP_ACCESS_KEY
       MINIO_SECRET_KEY: DEVELOP_SECRET_KEY
+    labels:
+      "docker_compose_diagram.icon": "s3"
 
   redis:
     image: redis:alpine
